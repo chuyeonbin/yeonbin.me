@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { pretendard } from '@/styles/fonts';
+import { pretendard, tossface } from '@/styles/fonts';
 import '@/styles/global.css';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='ko' className={pretendard.className}>
+    <html lang='ko' className={`${tossface.variable} ${pretendard.variable}`}>
       <body>{children}</body>
     </html>
   );
