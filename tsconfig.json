@@ -20,8 +20,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/styles/*": ["src/app/styles/*"],
-      "@/components/*": ["src/app/components/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/components/*": ["./app/components/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },
