@@ -7,3 +7,36 @@
     font-family: var(--font-pretendard), var(--font-tossface), system-ui, sans-serif;
   }
 }
+
+html,
+html[data-theme='light'] {
+  --bg-color-50: rgb(240 249 255);
+  --bg-color-100: rgb(224 242 254);
+  --bg-color-200: rgb(186 230 253);
+  --bg-color-300: rgb(125 211 252);
+  --bg-color-400: rgb(56 189 248);
+  --bg-color-500: rgb(14 165 233);
+  --bg-color-600: rgb(2 132 199);
+  --bg-color-700: rgb(3 105 161);
+  --bg-color-800: rgb(7 89 133);
+  --bg-color-900: rgb(12 74 110);
+  --bg-color-950: rgb(8 47 73);
+}
+
+html[data-theme='dark'] {
+  --bg-color-50: rgb(250 250 250);
+  --bg-color-100: rgb(244 244 245);
+  --bg-color-200: rgb(228 228 231);
+  --bg-color-300: rgb(212 212 216);
+  --bg-color-400: rgb(161 161 170);
+  --bg-color-500: rgb(113 113 122);
+  --bg-color-600: rgb(82 82 91);
+  --bg-color-700: rgb(63 63 70);
+  --bg-color-800: rgb(39 39 42);
+  --bg-color-900: rgb(24 24 27);
+  --bg-color-950: rgb(9 9 11);
+}
+
+h3 {
+  background-color: var(--bg-color-950);
+}
