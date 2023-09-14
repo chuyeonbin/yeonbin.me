@@ -12,4 +12,5 @@ export const tossface = localFont({
   src: './ttf/TossFaceFontMac.ttf',
   display: 'swap',
   variable: '--font-tossface',
+  preload: true,
 });
