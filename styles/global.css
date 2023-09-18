@@ -37,6 +37,10 @@ html[data-theme='dark'] {
   --bg-color-950: rgb(9 9 11);
 }
 
-h3 {
-  background-color: var(--bg-color-950);
+html.light pre[data-theme='dark'] {
+  display: none;
+}
+
+html.dark pre[data-theme='light'] {
+  display: none;
 }
