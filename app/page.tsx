@@ -3,6 +3,7 @@
 // import { allPosts, Post } from 'contentlayer/generated';
 // import { useMDXComponent } from 'next-contentlayer/hooks';
 import HomeProfile from './components/HomeProfile';
+import RecentWrapper from './components/RecentWrapper';
 
 // interface PostCardProps {
 //   post: Post;
@@ -32,6 +33,12 @@ export default function Home() {
   return (
     <div className='py-14'>
       <HomeProfile />
+      <RecentWrapper title='Recent Posts' href={'/blog'} linkTitle='all posts'>
+        <div>asd</div>
+      </RecentWrapper>
+      <RecentWrapper title='Recent Logs' href={'/log'} linkTitle='all logs'>
+        <div>asd</div>
+      </RecentWrapper>
     </div>
   );
 }
