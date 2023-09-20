@@ -10,7 +10,7 @@ export default function RecentBlog({ blog }: RecentBlogProps) {
   return (
     <li className='p-3 border-b dark:border-slate-300/20'>
       <Link href={`blog/${blog.slug}`} className='group'>
-        <div className='h-max md:h-40 md:grid grid-cols-12 gap-x-4'>
+        <div className='min-h-min md:grid grid-cols-12 gap-x-4'>
           <img
             src='test'
             alt='thumbnail'
@@ -27,7 +27,7 @@ export default function RecentBlog({ blog }: RecentBlogProps) {
               {blog.description}
             </p>
             {blog.tags.length > 0 ? (
-              <ul className='mt-5 flex space-x-2 text-sm md:text-base  text-slate-500/60'>
+              <ul className='mt-5 flex flex-wrap space-x-2 text-xs md:text-sm  text-slate-500/60'>
                 {blog.tags.map((tag) => {
                   return (
                     <li key={tag}>
