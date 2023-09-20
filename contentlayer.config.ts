@@ -8,10 +8,30 @@ const options: Options = {
   },
 };
 
-export const Post = defineDocumentType(() => ({
-  name: 'Post',
+export const Blog = defineDocumentType(() => ({
+  name: 'Blog',
   contentType: 'mdx',
-  filePathPattern: `*.mdx`,
+  filePathPattern: `blog/*.mdx`,
+  fields: {
+    title: { type: 'string', required: true },
+    publishAt: { type: 'date', required: true },
+    description: { type: 'string', required: true },
+    tags: {
+      type: 'list',
+      of: { type: 'string' },
+      required: true,
+      default: [],
+    },
+  },
+  computedFields: {
+    slug: { type: 'string', resolve: (post) => `/${post._raw.flattenedPath}` },
+  },
+}));
+
+export const Log = defineDocumentType(() => ({
+  name: 'Log',
+  contentType: 'mdx',
+  filePathPattern: `log/*.mdx`,
   fields: {
     title: { type: 'string', required: true },
     publishAt: { type: 'date', required: true },
@@ -30,7 +50,7 @@ export const Post = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: './posts',
-  documentTypes: [Post],
+  documentTypes: [Blog, Log],
   mdx: {
     rehypePlugins: [[rehypePrettyCode, options]],
   },
