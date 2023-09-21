@@ -23,7 +23,7 @@ export default function RecentBlog({ blog }: RecentBlogProps) {
             <h3 className='mt-2 text-lg md:text-xl font-semibold group-hover:text-indigo-700 dark:group-hover:text-indigo-300 line-clamp-1'>
               {blog.title}
             </h3>
-            <p className='mt-2 text-sm md:text-base font-semibold text-slate-500 line-clamp-2'>
+            <p className='mt-2 text-sm md:text-base text-slate-500 line-clamp-2'>
               {blog.description}
             </p>
             {blog.tags.length > 0 ? (
