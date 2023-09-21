@@ -24,7 +24,7 @@ export const Blog = defineDocumentType(() => ({
     },
   },
   computedFields: {
-    slug: { type: 'string', resolve: (post) => `/${post._raw.flattenedPath}` },
+    slug: { type: 'string', resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, '') },
   },
 }));
 
@@ -44,7 +44,7 @@ export const Log = defineDocumentType(() => ({
     },
   },
   computedFields: {
-    slug: { type: 'string', resolve: (post) => `/${post._raw.flattenedPath}` },
+    slug: { type: 'string', resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, '') },
   },
 }));
 
