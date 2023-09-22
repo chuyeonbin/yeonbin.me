@@ -3,6 +3,7 @@ import { pretendard, tossface } from '@/styles/fonts';
 import '@/styles/global.css';
 import Header from '@/components/Header';
 import ThemeProviders from './ThemeProviders';
+import ScrollTopButton from './components/ScrollTopButton';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className='container max-w-screen-md mx-auto px-4 py-12 md:py-16'>{children}</main>
           {/* footer */}
+          <ScrollTopButton />
         </ThemeProviders>
       </body>
     </html>
