@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProviders>
           <Header />
-          <main className='container max-w-screen-md mx-auto px-4 py-16'>{children}</main>
+          <main className='container max-w-screen-md mx-auto px-4 py-12 md:py-16'>{children}</main>
           {/* footer */}
         </ThemeProviders>
       </body>
