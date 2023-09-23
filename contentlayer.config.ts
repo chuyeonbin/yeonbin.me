@@ -3,8 +3,8 @@ import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 
 const options: Options = {
   theme: {
-    dark: 'github-dark-dimmed',
-    light: 'github-light',
+    dark: 'github-dark',
+    light: 'material-theme-palenight',
   },
 };
 
