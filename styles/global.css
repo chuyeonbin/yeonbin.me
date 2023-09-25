@@ -48,3 +48,8 @@ html.dark pre[data-theme='light'] {
 button.hide {
   display: none;
 }
+
+.rehype-code-title {
+  z-index: 0;
+  color: gray;
+}

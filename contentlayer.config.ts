@@ -1,4 +1,5 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import rehypeCodeTitles from 'rehype-code-titles';
 import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 
 const options: Options = {
@@ -52,6 +53,6 @@ export default makeSource({
   contentDirPath: './posts',
   documentTypes: [Blog, Log],
   mdx: {
-    rehypePlugins: [[rehypePrettyCode, options]],
+    rehypePlugins: [rehypeCodeTitles, [rehypePrettyCode, options]],
   },
 });
