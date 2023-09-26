@@ -6,7 +6,7 @@ export default function Footer() {
       <div className='py-2 flex border-t-2 border-color border-indigo-400/40 justify-between items-center text-gray-500 '>
         <div className='text-sm'>© 2023 chuyeonbin</div>
         <div className='flex justify-end space-x-1 py-2'>
-          <a href='https://github.com/chuyeonbin' target='_blank'>
+          <a href='https://github.com/chuyeonbin' target='_blank' className='hover:text-indigo-500'>
             <svg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'>
               <path
                 fill='currentColor'
@@ -14,7 +14,7 @@ export default function Footer() {
               ></path>
             </svg>
           </a>
-          <a href='mailto:cndusqls98@gmail.com' target='_blank'>
+          <a href='mailto:cndusqls98@gmail.com' target='_blank' className='hover:text-indigo-500'>
             <svg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'>
               <path d='M0 0h24v24H0z' fill='none' />
               <path
