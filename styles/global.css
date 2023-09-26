@@ -5,6 +5,8 @@
 @layer base {
   html {
     font-family: var(--font-pretendard), var(--font-tossface), system-ui, sans-serif;
+    scroll-behavior: smooth;
+    scroll-padding: 100px;
   }
 }
 
@@ -52,4 +54,22 @@ button.hide {
 .rehype-code-title {
   z-index: 0;
   color: gray;
+}
+
+.prose .anchor {
+  @apply text-black dark:text-white hover:text-current;
+}
+
+.prose .anchor:hover {
+  text-decoration-line: underline;
+}
+
+.prose .anchor:after {
+  @apply inline-block invisible pl-2;
+  @apply text-black dark:text-white;
+  content: '#';
+}
+
+.prose .anchor:hover:after {
+  @apply visible;
 }

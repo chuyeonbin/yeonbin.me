@@ -1,6 +1,9 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import rehypeSlug from 'rehype-slug';
 import rehypeCodeTitles from 'rehype-code-titles';
 import rehypePrettyCode, { Options } from 'rehype-pretty-code';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeExternalLinks from 'rehype-external-links';
 
 const options: Options = {
   theme: {
@@ -53,6 +56,27 @@ export default makeSource({
   contentDirPath: './posts',
   documentTypes: [Blog, Log],
   mdx: {
-    rehypePlugins: [rehypeCodeTitles, [rehypePrettyCode, options]],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeCodeTitles,
+      [rehypePrettyCode, options],
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'wrap',
+          content: undefined,
+          properties: {
+            className: ['anchor'],
+          },
+        },
+      ],
+      [
+        rehypeExternalLinks,
+        {
+          target: '_blank',
+          rel: ['nofollow', 'noopener', 'noreferrer'],
+        },
+      ],
+    ],
   },
 });
