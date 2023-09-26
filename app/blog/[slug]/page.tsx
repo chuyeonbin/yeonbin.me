@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import dateFormat from 'app/util/date';
 import { allBlogs } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
+import Giscus from '@/components/Giscus';
 
 export async function generateStaticParams() {
   return allBlogs.map((blog) => ({
@@ -31,6 +32,7 @@ export default function Page({ params }: any) {
         ) : null}
       </div>
       <MDXPost code={blog.body.code} />
+      <Giscus />
     </div>
   );
 }
