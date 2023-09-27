@@ -33,10 +33,10 @@ export const Blog = defineDocumentType(() => ({
   },
 }));
 
-export const Log = defineDocumentType(() => ({
-  name: 'Log',
+export const Record = defineDocumentType(() => ({
+  name: 'Record',
   contentType: 'mdx',
-  filePathPattern: `log/*.mdx`,
+  filePathPattern: `record/*.mdx`,
   fields: {
     title: { type: 'string', required: true },
     publishAt: { type: 'date', required: true },
@@ -55,7 +55,7 @@ export const Log = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: './posts',
-  documentTypes: [Blog, Log],
+  documentTypes: [Blog, Record],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
