@@ -3,6 +3,7 @@ import dateFormat from 'app/util/date';
 import { allBlogs } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import Giscus from '@/components/Giscus';
+import BlogFooter from '@/components/BlogFooter';
 
 export async function generateStaticParams() {
   return allBlogs.map((blog) => ({
@@ -13,8 +14,11 @@ export async function generateStaticParams() {
 export default function Page({ params }: any) {
   const slug = decodeURIComponent(params.slug);
   const blog = allBlogs.find((p) => p.slug === slug);
+  const postIndex = allBlogs.findIndex((v) => v.slug === slug);
 
-  if (!blog) return notFound();
+  if (!blog || postIndex === -1) return notFound();
+
+  const index = allBlogs.indexOf(blog);
 
   return (
     <div>
@@ -32,6 +36,8 @@ export default function Page({ params }: any) {
         ) : null}
       </div>
       <MDXPost code={blog.body.code} />
+      <hr className='mt-12 mb-5' />
+      <BlogFooter prevBlog={allBlogs[index - 1] ?? null} nextBlog={allBlogs[index + 1] ?? null} />
       <Giscus />
     </div>
   );
