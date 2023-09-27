@@ -4,6 +4,7 @@ import rehypeCodeTitles from 'rehype-code-titles';
 import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
+import remarkGfm from 'remark-gfm';
 
 const options: Options = {
   theme: {
@@ -56,6 +57,7 @@ export default makeSource({
   contentDirPath: './posts',
   documentTypes: [Blog, Log],
   mdx: {
+    remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
       rehypeCodeTitles,
