@@ -2,20 +2,20 @@ import Link from 'next/link';
 import { Blog } from 'contentlayer/generated';
 import dateFormat from 'app/util/date';
 
-interface RecentBlogProps {
+interface BlogCardProps {
   blog: Blog;
 }
 
-export default function RecentBlog({ blog }: RecentBlogProps) {
+export default function BlogCard({ blog }: BlogCardProps) {
   return (
     <li className='p-3 border-b dark:border-slate-300/20'>
       <Link href={`blog/${blog.slug}`} className='group'>
         <div className='min-h-min md:grid grid-cols-12 gap-x-4'>
-          {/* <img
+          <img
             src={'./public/next.svg'}
             alt='thumbnail'
             className='hidden md:block col-span-3 rounded-lg bg-slate-500'
-          /> */}
+          />
           <div className='col-span-9'>
             <span className='text-slate-500 text-sm md:text-base'>
               {dateFormat(blog.publishAt)}
