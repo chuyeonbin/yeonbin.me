@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Header() {
   return (
     <header className='sticky top-0 z-40 bg-white dark:bg-transparent dark:border-b dark:backdrop-blur dark:border-slate-300/10'>
-      <div className='container max-w-screen-md mx-auto px-8 py-4'>
+      <div className='container max-w-screen-md mx-auto px-4 py-4'>
         <div className='flex items-center justify-between'>
           <div>
             <Link href='/'>
