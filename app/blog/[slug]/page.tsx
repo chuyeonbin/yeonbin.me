@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function Page({ params }: any) {
+export default function Page({ params }: { params: { slug: string } }) {
   const slug = decodeURIComponent(params.slug);
   const blog = allBlogs.find((p) => p.slug === slug);
   const postIndex = allBlogs.findIndex((v) => v.slug === slug);
