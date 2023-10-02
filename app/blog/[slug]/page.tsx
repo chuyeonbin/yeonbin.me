@@ -3,7 +3,7 @@ import dateFormat from 'app/util/date';
 import { allBlogs } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import Giscus from '@/components/Giscus';
-import BlogFooter from '@/components/BlogFooter';
+import PostFooter from '@/components/PostFooter';
 
 export async function generateStaticParams() {
   return allBlogs.map((blog) => ({
@@ -37,7 +37,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <MDXPost code={blog.body.code} />
       <hr className='mt-12 mb-5' />
-      <BlogFooter prevBlog={allBlogs[index - 1] ?? null} nextBlog={allBlogs[index + 1] ?? null} />
+      <PostFooter prevPost={allBlogs[index - 1] ?? null} nextPost={allBlogs[index + 1] ?? null} />
       <Giscus />
     </div>
   );

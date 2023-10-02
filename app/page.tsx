@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div>
       <HomeProfile />
-      <RecentWrapper title='최신 글 ' href='/blog' linkTitle='all posts'>
+      <RecentWrapper title='최신 글' href='/blog' linkTitle='all posts'>
         <ul>
           {blogs.slice(0, 5).map((blog) => (
             <BlogCard key={blog._id} blog={blog} />
