@@ -16,14 +16,14 @@ export default function Home() {
       <HomeProfile />
       <RecentWrapper title='최신 글 ' href='/blog' linkTitle='all posts'>
         <ul>
-          {blogs.map((blog) => (
+          {blogs.slice(0, 5).map((blog) => (
             <BlogCard key={blog._id} blog={blog} />
           ))}
         </ul>
       </RecentWrapper>
       <RecentWrapper title='최신 기록' href='/record' linkTitle='all records'>
         <ul>
-          {records.map((record) => (
+          {records.slice(0, 5).map((record) => (
             <RecordCard key={record._id} record={record} />
           ))}
         </ul>
