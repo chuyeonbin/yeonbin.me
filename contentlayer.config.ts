@@ -5,6 +5,7 @@ import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 import remarkGfm from 'remark-gfm';
+import remarkToc from 'remark-toc';
 
 const options: Options = {
   theme: {
@@ -57,7 +58,16 @@ export default makeSource({
   contentDirPath: './posts',
   documentTypes: [Blog, Record],
   mdx: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [
+      remarkGfm,
+      [
+        remarkToc,
+        {
+          heading: '목차',
+          maxDepth: 3,
+        },
+      ],
+    ],
     rehypePlugins: [
       rehypeSlug,
       rehypeCodeTitles,
