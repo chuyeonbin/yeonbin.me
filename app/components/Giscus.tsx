@@ -1,4 +1,5 @@
 'use client';
+
 import { useTheme } from 'next-themes';
 import { useEffect, useRef } from 'react';
 
@@ -29,7 +30,7 @@ export default function Giscus() {
     script.setAttribute('data-lang', 'ko');
 
     ref.current.appendChild(script);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');

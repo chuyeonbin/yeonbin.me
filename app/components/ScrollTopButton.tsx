@@ -1,4 +1,5 @@
 'use client';
+
 import { ChevronUpIcon } from '@heroicons/react/24/solid';
 import { useEffect, useRef } from 'react';
 
@@ -30,6 +31,7 @@ export default function ScrollTopButton() {
 
   return (
     <button
+      type='button'
       className='fixed bottom-5 right-5 p-2 text-slate-400 hover:text-indigo-300 hover:bg-slate-300/20 rounded-full'
       onClick={scrollToTop}
       ref={buttonRef}
