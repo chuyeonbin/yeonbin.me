@@ -13,7 +13,7 @@ export default function Header() {
             <Link href='/'>
               <h1 className='text-xl md:text-2xl font-bold'>
                 yeonbin
-                <span className='text-indigo-700'>.dev</span>
+                <span className='text-indigo-700'>.me</span>
               </h1>
             </Link>
           </div>
