@@ -1,6 +1,33 @@
+import { Metadata } from 'next';
 import RecordCard from '@/components/RecordCard';
 import { allRecords } from 'contentlayer/generated';
 import { compareDesc } from 'date-fns';
+
+export const metadata: Metadata = {
+  title: '기록',
+  description: '일상 그리고 생각을 정리하기 위해서 기록합니다.',
+  openGraph: {
+    title: 'yeonbin 기록',
+    description: '일상 그리고 생각을 정리하기 위해서 기록합니다.',
+    url: 'https://yeonbin.me/record',
+    siteName: 'yeonbin blog',
+    images: [
+      {
+        url: 'https://yeonbin.me/images/base.jpeg',
+        width: 800,
+        height: 600,
+      },
+      {
+        url: 'https://yeonbin.me/images/base.jpeg',
+        width: 1800,
+        height: 1600,
+        alt: 'yeonbin.me',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
+};
 
 export default function Record() {
   const records = allRecords.sort((a, b) =>
