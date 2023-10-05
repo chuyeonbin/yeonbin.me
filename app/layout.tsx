@@ -20,20 +20,15 @@ export const metadata: Metadata = {
   publisher: 'chuyeonbin',
   robots: 'index, follow',
   openGraph: {
-    title: 'yeonbin homepage',
+    title: 'yeonbin 블로그',
     description: '개발 공부와 생각정리 그리고 일상을 공유하는 공간',
     url: 'https://yeonbin.me',
     siteName: 'yeonbin blog',
     images: [
       {
         url: 'https://yeonbin.me/images/base.jpeg',
-        width: 800,
-        height: 600,
-      },
-      {
-        url: 'https://yeonbin.me/images/base.jpeg',
-        width: 1800,
-        height: 1600,
+        width: 317,
+        height: 427,
         alt: 'yeonbin.me',
       },
     ],
