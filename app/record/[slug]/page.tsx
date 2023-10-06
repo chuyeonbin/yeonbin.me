@@ -3,6 +3,29 @@ import dateFormat from 'app/util/date';
 import { allRecords } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import PostFooter from '@/components/PostFooter';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const blog = allRecords.find((blog) => blog.slug === params.slug);
+
+  if (!blog) {
+    return notFound();
+  }
+
+  return {
+    metadataBase: new URL('https://yeonbin.me'),
+    description: blog.description,
+    openGraph: {
+      url: `blog/${blog.slug}`,
+      description: blog.description,
+      tags: blog.tags,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   return allRecords.map((record) => ({

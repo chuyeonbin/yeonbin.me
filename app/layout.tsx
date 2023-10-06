@@ -7,6 +7,7 @@ import ScrollTopButton from './components/ScrollTopButton';
 import Footer from './components/Footer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://yeonbin.me'),
   title: {
     template: '%s | yeonbin.me',
     default: 'yeonbin.me | Frontend Engineer',
@@ -26,10 +27,10 @@ export const metadata: Metadata = {
     siteName: 'yeonbin blog',
     images: [
       {
-        url: 'https://yeonbin.me/images/base.jpeg',
+        url: 'images/base.jpeg',
         width: 317,
         height: 427,
-        alt: 'yeonbin.me',
+        alt: 'base image',
       },
     ],
     locale: 'ko_KR',

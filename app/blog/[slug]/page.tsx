@@ -1,9 +1,40 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import dateFormat from 'app/util/date';
 import { allBlogs } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import Giscus from '@/components/Giscus';
 import PostFooter from '@/components/PostFooter';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const blog = allBlogs.find((blog) => blog.slug === params.slug);
+
+  if (!blog) {
+    return notFound();
+  }
+
+  return {
+    metadataBase: new URL('https://yeonbin.me'),
+    description: blog.description,
+    openGraph: {
+      url: `blog/${blog.slug}`,
+      description: blog.description,
+      images: [
+        {
+          url: blog.thumbnailUrl,
+          width: 800,
+          height: 600,
+          alt: blog.title,
+        },
+      ],
+      tags: blog.tags,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   return allBlogs.map((blog) => ({
