@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import type { Metadata } from 'next';
 import { pretendard, tossface } from '@/styles/fonts';
 import '@/styles/global.css';
@@ -5,7 +6,6 @@ import Header from '@/components/Header';
 import ThemeProviders from './ThemeProviders';
 import ScrollTopButton from './components/ScrollTopButton';
 import Footer from './components/Footer';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yeonbin.me'),
@@ -52,7 +52,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
- 
           gtag('config', 'G-00L4MK8HC5');
         `}
       </Script>

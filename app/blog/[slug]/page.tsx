@@ -11,7 +11,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const blog = allBlogs.find((blog) => blog.slug === params.slug);
+  const blog = allBlogs.find((p) => p.slug === params.slug);
 
   if (!blog) {
     return notFound();
@@ -20,6 +20,7 @@ export async function generateMetadata({
   return {
     metadataBase: new URL('https://yeonbin.me'),
     description: blog.description,
+    title: blog.title,
     openGraph: {
       url: `blog/${blog.slug}`,
       description: blog.description,
