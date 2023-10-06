@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import ThemeProviders from './ThemeProviders';
 import ScrollTopButton from './components/ScrollTopButton';
 import Footer from './components/Footer';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yeonbin.me'),
@@ -45,6 +46,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${tossface.variable} ${pretendard.variable}`}
       suppressHydrationWarning
     >
+      <Script src='https://www.googletagmanager.com/gtag/js?id=G-00L4MK8HC5' />
+      <Script id='google-analytics'>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-00L4MK8HC5');
+        `}
+      </Script>
       <body>
         <ThemeProviders>
           <Header />
