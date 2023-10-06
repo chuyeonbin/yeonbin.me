@@ -17,7 +17,7 @@ export default function Giscus() {
     script.async = true;
     script.crossOrigin = 'anonymous';
 
-    script.setAttribute('data-repo', 'chuyeonbin/yeonbin.dev');
+    script.setAttribute('data-repo', 'chuyeonbin/yeonbin.me');
     script.setAttribute('data-repo-id', 'R_kgDOKSei8g');
     script.setAttribute('data-category', 'General');
     script.setAttribute('data-category-id', 'DIC_kwDOKSei8s4CZnui');
