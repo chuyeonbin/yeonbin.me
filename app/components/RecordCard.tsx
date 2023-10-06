@@ -27,7 +27,7 @@ export default function RecordCard({ record }: RecordCardProps) {
                 ))}
               </ul>
             ) : null}
-            <p className='mt-2 text-sm md:text-base font-semibold text-slate-400 line-clamp-3'>
+            <p className='mt-2 text-sm md:text-base text-slate-500 line-clamp-3'>
               {record.description}
             </p>
           </div>
