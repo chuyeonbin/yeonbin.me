@@ -1,7 +1,8 @@
 import Script from 'next/script';
 import type { Metadata } from 'next';
-import { pretendard, tossface } from '@/styles/fonts';
+import { pretendard } from '@/styles/fonts';
 import '@/styles/global.css';
+import '@/styles/tossface.css';
 import Header from '@/components/Header';
 import ThemeProviders from './ThemeProviders';
 import ScrollTopButton from './components/ScrollTopButton';
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://yeonbin.me'),
   title: {
     template: '%s | yeonbin.me',
-    default: 'yeonbin.me | Frontend Engineer',
+    default: 'yeonbin 블로그 | Frontend Engineer',
   },
   description: '개발 공부와 생각정리 그리고 일상을 공유하는 공간',
   verification: {
@@ -41,11 +42,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang='ko'
-      className={`${tossface.variable} ${pretendard.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang='ko' className={`${pretendard.variable}`} suppressHydrationWarning>
       <Script src='https://www.googletagmanager.com/gtag/js?id=G-00L4MK8HC5' />
       <Script id='google-analytics'>
         {`

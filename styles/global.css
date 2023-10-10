@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    font-family: var(--font-pretendard), var(--font-tossface), system-ui, sans-serif;
+    font-family: var(--font-pretendard), Tossface, system-ui, sans-serif;
     scroll-behavior: smooth;
     scroll-padding: 100px;
   }

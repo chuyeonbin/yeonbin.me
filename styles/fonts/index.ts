@@ -6,11 +6,3 @@ export const pretendard = localFont({
   display: 'swap',
   variable: '--font-pretendard',
 });
-
-// https://github.com/toss/tossface
-export const tossface = localFont({
-  src: './ttf/TossFaceFontMac.ttf',
-  display: 'swap',
-  variable: '--font-tossface',
-  preload: true,
-});
