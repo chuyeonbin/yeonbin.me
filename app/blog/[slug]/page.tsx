@@ -51,7 +51,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (!blog || postIndex === -1) return notFound();
 
-  blog;
   const index = allBlogs.indexOf(blog);
 
   return (
