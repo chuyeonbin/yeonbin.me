@@ -5,6 +5,7 @@ import { allBlogs } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import Giscus from '@/components/Giscus';
 import PostFooter from '@/components/PostFooter';
+import Toc from '@/components/Toc';
 
 export async function generateMetadata({
   params,
@@ -50,6 +51,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (!blog || postIndex === -1) return notFound();
 
+  blog;
   const index = allBlogs.indexOf(blog);
 
   return (
@@ -70,6 +72,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <MDXPost code={blog.body.code} />
       <hr className='mt-12 mb-5' />
       <PostFooter prevPost={allBlogs[index - 1] ?? null} nextPost={allBlogs[index + 1] ?? null} />
+      <Toc headings={blog.headings} />
       <Giscus />
     </div>
   );
