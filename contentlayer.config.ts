@@ -1,5 +1,6 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
 import rehypeSlug from 'rehype-slug';
+import GithubSlugger from 'github-slugger';
 import rehypeCodeTitles from 'rehype-code-titles';
 import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -32,6 +33,23 @@ export const Blog = defineDocumentType(() => ({
   },
   computedFields: {
     slug: { type: 'string', resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, '') },
+    headings: {
+      type: 'json',
+      resolve: (doc) => {
+        const regXHeader = /\n(?<flag>#{1,6})\s+(?<content>.+)/g;
+        const slugger = new GithubSlugger();
+        const headings = Array.from(doc.body.raw.matchAll(regXHeader)).map(({ groups }) => {
+          const flag = groups?.flag;
+          const content = groups?.content;
+          return {
+            level: flag?.length == 1 ? 'one' : flag?.length == 2 ? 'two' : 'three',
+            text: content,
+            slug: content ? slugger.slug(content) : undefined,
+          };
+        });
+        return headings;
+      },
+    },
   },
 }));
 
