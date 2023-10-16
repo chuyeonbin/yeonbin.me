@@ -32,7 +32,7 @@ export default function ScrollTopButton() {
   return (
     <button
       type='button'
-      className='fixed bottom-5 right-5 p-2 text-slate-400 hover:text-indigo-300 hover:bg-slate-300/20 rounded-full'
+      className='fixed bottom-5 right-5 p-2 z-30 text-slate-400 hover:text-indigo-300 hover:bg-slate-300/20 rounded-full'
       onClick={scrollToTop}
       ref={buttonRef}
     >
