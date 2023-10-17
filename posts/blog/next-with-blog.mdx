@@ -1,0 +1,225 @@
+---
+title: next13.5 버전으로 블로그를 만들어보았다. 🔥
+publishAt: 2023-10-10 18:39
+thumbnailUrl: /images/blog/next-with-blog/thumbnail.png
+description: next13.5 버전으로 블로그를 만들어보았다 feat.contentlayer
+tags: [blog, next, next13, contentlayer, mdx, typescript, tossface, pretendard, vercel]
+---
+
+<center>
+  <img src='/images/blog/next-with-blog/thumbnail.png' width='400px' height='200px' />
+</center>
+
+## 목차
+
+## 만들게된 계기
+
+이번에 next.js 13 버전을 공부할겸 내가 직접 구현만 블로그를 가져보고 싶어서 만들게 되었습니다. 그리고 제가 만들었던 것을 공유하고 싶어서 글을 작성하게 되었습니다.
+
+## 만들기 전 기술스택 선정 하기 🛠️
+
+사실 제가 생각하기엔 블로그 같은 정적인 페이지를 빠르게 구현 하기에는 [gatsby](https://www.gatsbyjs.com/)도 훌륭하다고 생각하지만 그럼에도 불구하고 [next.js](https://nextjs.org/)로 만들게 된 이유는 예전에는 베타였던 App router가 13.4버전부터 정식으로 들어오게 되면서 미루고 미뤘던 nextjs를 이참에 공부해보자 하는 마음에 블로그를 만들면서 도입하게 되었습니다.😀
+
+> 제 프로젝트는 next13.5 버전을 사용했습니다. 최근에 공식적인 발표로 next13.5버전이 출시 해서 [이 글](https://nextjs.org/blog/next-13-5)을 읽어보시면 업데이트 사항을 자세히 확인 하실 수 있습니다.
+
+**정적인 콘텐츠를 다루는 도구**로는 typescript 기반으로 만들어진 [contentlayer](https://contentlayer.dev/)를 사용하였습니다.
+
+#### contentlayer 사용하면서 좋았던 점 3가지
+
+1. 정리가 잘되어 있는 공식문서와 무엇보다 간편하게 적용 시킬 수 있습니다.
+2. 내가 작성한 문서에 대한 **type을 자동으로 정의** 해줍니다.
+3. contentlayer는 **cache**를 지원하기 때문에 **build 속도가 빠릅니다.**
+
+_이런식으로 type을 자동으로 정의해줍니다._
+
+<img src='/images/blog/next-with-blog/1.png' width='400' />
+_caching된 파일_
+<img src='/images/blog/next-with-blog/2.png' />
+
+**css프레임워크**는 [tailwindcss](https://tailwindcss.com/)를 사용하였습니다. 선택한 이유는 일관된 디자인 시스템 & 원하는 디자인을 빠르게 구현 할 수 있어서 선택하게 되었습니다.
+
+원래는 tailwindcss 단점인 클래스명으로 코드가 지저분해지는 것 때문에 styled-component로 확장 가능하게 component를 만들어서 관리 하려고 했으나, 생각보다 코드가 나름 일관성 있어 보이고, 만들면서 그래도 가독성이 나쁘지 않다고 판단하여 tailwindcss만 적용하기로 했습니다. 조금 더 큰 프로젝트 같은 경우에 두개를 같이 사용해서 구현 하는게 좋을 것 같습니다.
+
+**SEO 최적화**를 위해 [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)을 사용하였습니다.
+
+그외에 추가로 mdx를 확장성 있게 사용하기 위해서 **mdx plugin**을 설치하였습니다. [remark-toc](https://github.com/remarkjs/remark-toc), [remark-gfm](https://github.com/remarkjs/remark-gfm), [rehype-slug](https://github.com/rehypejs/rehype-slug), [rehype-pretty-code](https://rehype-pretty-code.netlify.app/), [rehype-external-links](https://github.com/rehypejs/rehype-external-links), [rehype-code-titles](https://github.com/rockchalkwushock/rehype-code-titles), [rehype-autolink-headings](https://github.com/rehypejs/rehype-autolink-headings)
+
+## contentlayer 적용
+
+contentlayer는 nextjs랑 같이 사용할 수 있게 돼 있어서 빠르게 적용 할 수 있었습니다.
+
+contentlayer.config.ts에서 content의 스키마를 아래 코드 처럼 정의 해주게 되면
+
+```typescript
+//contentlayer.config.ts
+export const Blog = defineDocumentType(() => ({
+  name: 'Blog',
+  contentType: 'mdx',
+  filePathPattern: `blog/*.mdx`,
+  fields: {
+    title: { type: 'string', required: true },
+    publishAt: { type: 'date', required: true },
+    thumbnailUrl: { type: 'string', required: true },
+    description: { type: 'string', required: true },
+    tags: {
+      type: 'list',
+      of: { type: 'string' },
+      required: true,
+      default: [],
+    },
+  },
+  computedFields: {
+    slug: { type: 'string', resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, '') },
+  },
+}));
+
+export default makeSource({ contentDirPath: './posts', documentTypes: [Blog] });
+```
+
+mdx를 밑에 코드처럼 작성할 수 있게 해주고, 실수로 mdx에 required로 된 field 구문을 빼고 작성하게 되면 터미널에 에러창을 띄워줘서 어디를 작성 안했는지 빠르게 알수 있습니다.
+
+```mdx:test.mdx
+---
+publishAt: 2023-10-12 21:20
+thumbnailUrl: /images/blog/01-test/thumbnail.jpeg
+description: 안녕하세요 테스트입니다.
+tags: [테스트1, 테스트2, 테스트3]
+---
+contentlayer 좋다
+```
+
+![](/images/blog/next-with-blog/3.png)
+
+그리고 mdx 관련 플러그인 적용시켜서 사용하기에도 굉장히 편했습니다.
+
+```typescript
+//contentlayer.config.ts
+export default makeSource({
+  contentDirPath: './posts',
+  documentTypes: [Blog, Record],
+  mdx: {
+    //여기에 적용시킬 plugin 넣을 수 있습니다.
+    remarkPlugins: [
+      remarkGfm,
+      [
+        remarkToc,
+        {
+          heading: '목차',
+          maxDepth: 3,
+        },
+      ],
+    ],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeCodeTitles,
+      [rehypePrettyCode, options],
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'wrap',
+          content: undefined,
+          properties: {
+            className: ['anchor'],
+          },
+        },
+      ],
+      [
+        rehypeExternalLinks,
+        {
+          target: '_blank',
+          rel: ['nofollow', 'noopener', 'noreferrer'],
+        },
+      ],
+    ],
+  },
+});
+```
+
+## pretendard & tossface font 적용
+
+font는 유명한 **pretendard** 그리고 이모지를 토스 스타일로 재구성한 **tossface**를 사용하였습니다 ✨
+
+font 최적화를 위해 아래와 같이 nextjs의 local font 사용 하였고,
+tailwindcss랑 같이 사용하기 위해서 variable을 설정했습니다.
+이렇게 하면 className의 값으로 사용이 가능해져서 css에서 변수명으로 사용할 수가 있습니다 😃
+
+```typescript
+// style/fonts/index.ts
+import localFont from 'next/font/local';
+
+// https://github.com/orioncactus/pretendard
+export const pretendard = localFont({
+  src: './woff2/PretendardVariable.woff2',
+  display: 'swap',
+  variable: '--font-pretendard',
+  preload: true,
+});
+
+// https://github.com/toss/tossface
+export const tossface = localFont({
+  src: './ttf/TossFaceFontMac.ttf',
+  display: 'block',
+  variable: '--font-tossface',
+  preload: true,
+});
+```
+
+## 다크모드 적용
+
+다크모드를 적용하기 위해서 저는 [next-themes](https://github.com/pacocoursey/next-themes)를 사용했습니다.
+
+원래는 렌더링이 된 직후 로컬스토리지에서 theme값을 불러와서 상태를 업데이트 시키는 방식으로 다크모드를 구현 했었는데 이렇게 하니까 페이지 새로고침시 **깜빡임 현상**이 발생하였습니다. 이러한 문제를 해결하기 위해서 next-theme 라이브러리를 사용하였습니다.
+
+next-themes은 처음 렌더링 되기 이전에 서버에서 미리 로컬스토리지의 있는 theme값을 읽어서 값을 설정해줍니다.
+
+**페이지 새로고침후 다크모드 유지되는 모습**
+![](/images/blog/next-with-blog/8.gif)
+
+## 트러블슈팅
+
+### FOUT & FOIT 이슈
+
+> **FOUT**란, 브라우저가 폰트를 다운로드하기 전까지 폰트가 적용되지 않는 현상을 말합니다.
+
+> **FOIT**란, 브라우저가 폰트를 다운로드하기 전까지 글자가 보이지 않는 현상을 말합니다.
+
+다 만들고 보니 유독 tossface font가 로드 되는 속도가 느렸습니다. tossface는 크기가 **12MB**이기 때문에 다운로드 되는 속도가 지연되는건 당연한 결과였습니다.
+
+_로드되는 속도가 느리니까 **FOUT 이슈**이 발생하였고, **페이지 로드 속도 또한 느려져서 전체 페이지를 제공하기까지 4.6초** 이상이라는 시간이 걸리게 되었습니다._
+
+![](/images/blog/next-with-blog/4.png)
+
+이러한 문제점을 해결하고자 다운로드 되는 리소스의 자원을 최적화 하는게 좋겠다고 판단하여 기존의 local font를 사용하는 방식이 아니라 tossface에서 CDN형식으로 제공해주는 css파일을 불러와서 로드를 해주었습니다.
+
+```css:tossface.css
+@import url('https://cdn.jsdelivr.net/gh/toss/tossface/dist/tossface.css');
+```
+
+이렇게 CDN에서 css를 불러와서 사용한 결과 **초기 페이지 로드시 4.6초**였던 시간을 **1초**이내로 줄일 수 있었고, **전체 페이지 리소스 또한 15MB 이상**이였던 것을 **7.5MB 이하**로 줄일 수 있게 되었습니다. 👍
+
+![](/images/blog/next-with-blog/5.png)
+
+이렇게해서 **FOUT 이슈**을 해결해서 뿌듯하였지만 또 다른 문제가 생기게 되었습니다. 🥲
+
+이번에는 초기 로드시 글자가 로드가 되기 전에는 **FOIT 이슈**가 발생하였습니다. 🤯
+
+![](/images/blog/next-with-blog/7.gif)
+
+이 이슈를 해결 하려고 link 태그의 rel 속성에 preload 옵션을 사용해서 리소스를 먼저 불러오기를 해보았고, global.css에서 import url을 사용해서 tossface font를 불러왔으나
+그대로였습니다.
+
+해결하지 못한게 좀 꺼림직하지만.. 그래도 UX가 그렇게 거슬리지 않아서 우선은 그대로 사용하기로 했습니다.
+
+## 개발하며 느낀점
+
+이 글에서는 제가 블로그 개발을 하면서 중요한 포인트들을 간략하게 적었습니다.
+비록 이 글에서는 다 담지는 못했지만 많은 것들을 했습니다.
+기존의 알지 못했던 SEO 사용법, sitemap 생성, 구글 서치 콘솔 등록 (만들면서 처음알았습니다. ~~만들면서 처음 알았다 😅..~~), 도메인 구매(도메인은 가비아에서 구매하였습니다.) 등 만들면서 몰랐던 것들에 대해 알아가는 재미가 있었습니다.
+
+그리고 만들면서 FOUT FOIT가 어떤 것인지 그리고 그리고 font는 좀 더 신중하게 선택해서 도입해야 하는 걸 느꼈습니다. 예전에는 font를 도입할 때 이런 현상을 겪어 본 적이 없어서 몰랐는데 이번 계기로 알게 되어서 많은 걸 깨달았습니다.
+
+## 참고
+
+https://bepyan.github.io/blog/nextjs-blog
+
+https://miryang.dev/blog/build-blog-with-nextjs
