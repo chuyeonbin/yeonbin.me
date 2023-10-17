@@ -1,13 +1,16 @@
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 
 export default function useIntersectionObserver(setState: Dispatch<SetStateAction<string>>) {
-  const observerCallback: IntersectionObserverCallback = useCallback((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0) {
-        setState(entry.target.id);
-      }
-    });
-  }, []);
+  const observerCallback: IntersectionObserverCallback = useCallback(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0) {
+          setState(entry.target.id);
+        }
+      });
+    },
+    [setState],
+  );
 
   useEffect(() => {
     const observerOptions = {
@@ -23,5 +26,5 @@ export default function useIntersectionObserver(setState: Dispatch<SetStateActio
     headings.forEach((heading) => observer.observe(heading));
 
     return () => observer && observer.disconnect();
-  }, []);
+  }, [observerCallback]);
 }
