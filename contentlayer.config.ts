@@ -44,7 +44,7 @@ export const Blog = defineDocumentType(() => ({
           return {
             level: flag?.length == 1 ? 'one' : flag?.length == 2 ? 'two' : 'three',
             text: content,
-            slug: content ? '#' + slugger.slug(content) : undefined,
+            slug: content ? slugger.slug(content) : undefined,
           };
         });
         return headings;
