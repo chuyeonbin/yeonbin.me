@@ -1,0 +1,151 @@
+---
+title: 내가 만든 프로젝트로 다시 정리하는 redux-saga
+publishAt: 2023-10-23 14:29
+thumbnailUrl: /images/blog/redux-saga-channel/thumbnail.png
+description: 프로젝트에서 redux-saga channel 활용한 방법
+tags: [websocket, redux, redux-saga, channel, upbit]
+---
+
+<center>
+  <img src='/images/blog/upbit-trade-memoirs/thumbnail.png' width='400px' height='200px' />
+</center>
+
+## 목차
+
+## 개요
+
+[upbit-trade](https://chuyeonbin.github.io/upbit-trade) 프로젝트를 만든지가 꽤 되었지만 redux-saga 사용했던 것에 대해서 다시 정리 해보려고 합니다.
+
+## redux-saga로 렌더링 병목현상 해결하기
+
+### 트러블슈팅 ⚒️
+
+원래는 프로젝트에서 [redux-saga](https://redux-saga.js.org)를 사용하지 않고 아래처럼 useEffect 안에서 websocket 메시지가 들어올때마다 dispatch 해주는 방식으로 구현을 하였습니다.
+
+```typescript
+useEffect(() => {
+  const ws = new WebSocket('wss://api.upbit.com/websocket/v1');
+  ws.binaryType = 'arraybuffer';
+
+  ws.onopen = () => {
+    const msg = JSON.stringify([{ ticket: 'upbit' }, { type: 'ticker', codes: ['KRW-BTC'] }]);
+    ws.send(msg);
+  };
+
+  ws.onmessage = (event) => {
+    const enc = new TextDecoder('utf-8');
+    const arr = new Uint8Array(event.data);
+    dispatch(updateSelectedCoin(JSON.parse(enc.decode(arr))));
+  };
+
+  ws.onerror = (error) => {
+    throw error;
+  };
+}, []);
+```
+
+이렇게 하면 코인데이터가 한개일 경우에는 문제없이 동작하지만 upbit에서 제공해주는 코인 데이터를 모두 요청해서 websocket으로 받게 되면 **렌더링 병목 현상**이 발생하게 됩니다. 이러한 문제를 해결하기 위해서 열심히 구글링 하다가 [redux-saga](https://redux-saga.js.org/)에서 제공해주는 [channel](https://redux-saga.js.org/docs/advanced/Channels/)이라는 것을 알게되어 도입하게 되었습니다.
+
+### 개선 ✨
+
+### redux-saga channel이란
+
+redux-saga의 channel은 데이터를 계속 밀어넣는 websocket의 **push** 기반과 그리고 take/put과 같이 이펙트를 사용하는 **pull** 기반의 동작을 일반화 시켜주는 역할을 수행 합니다.
+
+### 1. 팩토리 함수 만들기
+
+우선 이런식으로 eventChannel을 return해주는 팩토리 함수를 만들어주었습니다.
+
+```typescript
+function channelConnection(field: {
+  type: 'ticker' | 'trade' | 'orderbook';
+  codes: string[];
+}): EventChannel<string> {
+  return eventChannel(
+    (emitter) => {
+      const ws = createSocket();
+
+      ws.onopen = () => {
+        const msg = JSON.stringify([{ ticket: 'upbit' }, field]);
+        ws.send(msg);
+      };
+
+      ws.onmessage = (event) => {
+        const enc = new TextDecoder('utf-8');
+        const arr = new Uint8Array(event.data);
+        emitter(JSON.parse(enc.decode(arr)));
+      };
+
+      ws.onerror = (error) => {
+        throw error;
+      };
+
+      ws.close = () => {
+        emitter(END);
+      };
+
+      return function unsubscribe() {
+        ws.close();
+      };
+    },
+    buffers.expanding(200) || buffers.none(),
+  );
+}
+```
+
+메시지가 수신 될 때마다 emitter로 버퍼에 저장하고 버퍼의 사이즈는 200으로 설정하였습니다.
+
+### 2. buffer 데이터 사용하기
+
+코인 데이터의 현재가를 실시간으로 받아오는 saga 함수에서 buffer에 저장되어있는 메시지를 **flush** 이펙트로 가져오고 **delay** 이펙트로 0.5초에 한번씩 put 이펙트가 실행되게 구현하였습니다.
+
+```typescript
+export function* presentPriceSocketSaga({ payload }: PayloadAction<{ codes: string[] }>) {
+  let channel: EventChannel<RealTimeTickers>;
+  try {
+    channel = yield call(channelConnection, { type: 'ticker', codes: payload.codes });
+    yield put(presentPriceSocketSuccess());
+
+    while (true) {
+      const msg: RealTimeTickers = yield flush(channel);
+      const {
+        coin: { selectedCoin },
+      }: RootState = yield select();
+
+      if (msg.length) {
+        yield put(updateTickerList(msg));
+      }
+
+      if (msg.find((value) => value.code === selectedCoin.market)) {
+        yield put(updateSelectedCoin(msg));
+      }
+
+      yield delay(500); // 0.5초마다 업데이트
+    }
+  } catch (error) {
+    console.error(error);
+    yield put(presentPriceSocketFailure(error));
+  } finally {
+    closeChannel(channel!);
+  }
+}
+```
+
+결과적으로 useEffect 안에서 websocket 메시지를 dispatch 해주는 방식의 **렌더링 병목 현상**을 redux-saga의 channel과 buffer를 활용해서 개선할 수 있었습니다.
+
+### 결과
+
+**1초 100번 이상 렌더링** -> **1초에 2번 렌더링으로 개선✨**
+![](/images/blog/upbit-trade-memoirs/1.gif)
+
+## 참고
+
+https://seongkyun-yu.github.io/2020/11/19/0053-websocket-with-redux-saga
+
+https://redux-saga.js.org/docs/advanced/Channels
+
+https://meetup.nhncloud.com/posts/114
+
+```
+
+```
