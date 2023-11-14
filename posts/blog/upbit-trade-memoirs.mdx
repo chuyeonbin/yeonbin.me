@@ -2,7 +2,7 @@
 title: 내가 만든 프로젝트로 다시 정리하는 redux-saga
 publishAt: 2023-10-23 14:29
 thumbnailUrl: /images/blog/upbit-trade-memoirs/thumbnail.png
-description: 프로젝트에서 redux-saga channel 활용한 방법
+description: 프로젝트에서 redux-saga 활용한 방법
 tags: [websocket, redux, redux-saga, channel, upbit]
 ---
 
@@ -135,8 +135,82 @@ export function* presentPriceSocketSaga({ payload }: PayloadAction<{ codes: stri
 
 ### 결과
 
-**1초 100번 이상 렌더링** -> **1초에 2번 렌더링으로 개선✨**
+**1초 100번 이상 렌더링**💩 -> **1초에 2번 렌더링으로 개선✨**
 ![](/images/blog/upbit-trade-memoirs/1.gif)
+
+## throttle effect로 api 요청 수 제한하기
+
+### 트러블슈팅 ⚒️
+
+개발을 진행하다가 이전 코인데이터 한번만 요청해야 하는데 같은 데이터를 여러번 호출을 하는 이슈가 발생 하였습니다. 이 문제를 해결하기 위해서 throttle effect로 이전 코인데이터를 요청하는 action들을 일정 시간동안 지연 시켜서 한개의 요청만 전달되게끔 해서 해결할 수 있었습니다.
+
+### 개선 ✨
+
+### throttle이란
+
+**throttle** 은 이벤트를 일정한 주기마다 발생하도록 하는 기술입니다. 예를 들어 Throttle 의 설정시간으로 1ms 를 주게되면 해당 이벤트는 1ms 동안 최대 한번만 발생하게 됩니다.
+
+따라서 throttle effect를 사용해서 dispatch 된 액션들에 쓰로들링을 할 수 있습니다.
+
+### 기존코드
+
+```typescript
+function* watchPrevCandleDataSaga() {
+  yield takeEvery(loadPrevCandleData, loadPrevCandleDataSaga);
+}
+
+function* watchChangeCandleDataSaga() {
+  yield takeEvery(changeCandleData, changeCandleDataSaga);
+}
+
+function* watchChangeSelectedCoinSaga() {
+  yield takeEvery(changeSelectedCoin, changeSelectedCoinSaga);
+}
+
+export default function* coinSaga() {
+  yield all([
+    fork(watchChangeSelectedCoinSaga),
+    fork(watchChangeCandleDataSaga),
+    fork(watchPrevCandleDataSaga),
+  ]);
+}
+```
+
+### throttle 적용 코드
+
+```typescript
+function* watchPrevCandleDataSaga() {
+  yield throttle(500, loadPrevCandleData, loadPrevCandleDataSaga);
+}
+
+function* watchChangeCandleDataSaga() {
+  yield takeEvery(changeCandleData, changeCandleDataSaga);
+}
+
+function* watchChangeSelectedCoinSaga() {
+  yield takeEvery(changeSelectedCoin, changeSelectedCoinSaga);
+}
+
+export default function* coinSaga() {
+  yield all([
+    fork(watchChangeSelectedCoinSaga),
+    fork(watchChangeCandleDataSaga),
+    fork(watchPrevCandleDataSaga),
+  ]);
+}
+```
+
+### 결과
+
+**throttle 적용 전**
+
+<img src='/images/blog/upbit-trade-memoirs/2.gif' width='1000' />
+
+**throttle 적용 후**
+
+<img src='/images/blog/upbit-trade-memoirs/3.gif' width='1000' />
+
+**같은 이전 캔들데이터 여러번 호출**💩 -> **같은 이전 캔들데이터 1번씩만 호출**✨
 
 ## 참고
 
