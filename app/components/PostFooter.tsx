@@ -1,9 +1,9 @@
-import { Blog, Record } from '.contentlayer/generated/types';
+import { Blog, Note } from '.contentlayer/generated/types';
 import React from 'react';
 
 interface PostFooterProps {
-  prevPost: Blog | Record | null;
-  nextPost: Blog | Record | null;
+  prevPost: Blog | Note | null;
+  nextPost: Blog | Note | null;
 }
 
 export default function PostFooter({ prevPost, nextPost }: PostFooterProps) {

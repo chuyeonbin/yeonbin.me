@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import dateFormat from 'app/util/date';
-import { allRecords } from 'contentlayer/generated';
+import { allNotes } from 'contentlayer/generated';
 import MDXPost from '@/components/MDXPost';
 import PostFooter from '@/components/PostFooter';
 import { Metadata } from 'next';
@@ -10,38 +10,38 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const record = allRecords.find((p) => p.slug === params.slug);
+  const note = allNotes.find((p) => p.slug === params.slug);
 
-  if (!record) {
+  if (!note) {
     return notFound();
   }
 
   return {
     metadataBase: new URL('https://yeonbin.me'),
-    description: record.description,
-    title: record.title,
+    description: note.description,
+    title: note.title,
     openGraph: {
-      url: `record/${record.slug}`,
-      description: record.description,
-      tags: record.tags,
+      url: `note/${note.slug}`,
+      description: note.description,
+      tags: note.tags,
     },
   };
 }
 
 export async function generateStaticParams() {
-  return allRecords.map((record) => ({
-    slug: record.slug,
+  return allNotes.map((note) => ({
+    slug: note.slug,
   }));
 }
 
 function Page({ params }: { params: { slug: string } }) {
   const slug = decodeURIComponent(params.slug);
-  const blog = allRecords.find((p) => p.slug === slug);
-  const postIndex = allRecords.findIndex((v) => v.slug === slug);
+  const blog = allNotes.find((p) => p.slug === slug);
+  const postIndex = allNotes.findIndex((v) => v.slug === slug);
 
   if (!blog || postIndex === -1) return notFound();
 
-  const index = allRecords.indexOf(blog);
+  const index = allNotes.indexOf(blog);
 
   return (
     <div>
@@ -60,10 +60,7 @@ function Page({ params }: { params: { slug: string } }) {
       </div>
       <MDXPost code={blog.body.code} />
       <hr className='mt-12 mb-5' />
-      <PostFooter
-        prevPost={allRecords[index - 1] ?? null}
-        nextPost={allRecords[index + 1] ?? null}
-      />
+      <PostFooter prevPost={allNotes[index - 1] ?? null} nextPost={allNotes[index + 1] ?? null} />
     </div>
   );
 }
