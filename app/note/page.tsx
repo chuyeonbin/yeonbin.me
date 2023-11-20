@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
-import RecordCard from '@/components/RecordCard';
-import { allRecords } from 'contentlayer/generated';
+import NoteCard from '@/components/NoteCard';
+import { allNotes } from 'contentlayer/generated';
 import { compareDesc } from 'date-fns';
 
 export const metadata: Metadata = {
-  title: '기록',
-  description: '일상 그리고 생각을 정리하기 위해서 기록합니다.',
+  title: '노트',
+  description: '에러해결 그리고 학습했던 내용을 적는 노트입니다.',
   openGraph: {
     title: 'yeonbin 기록',
-    description: '일상 그리고 생각을 정리하기 위해서 기록합니다.',
+    description: '에러해결 그리고 학습했던 내용을 적는 노트입니다.',
     url: 'https://yeonbin.me/record',
     siteName: 'yeonbin blog',
     images: [
@@ -29,22 +29,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Record() {
-  const records = allRecords.sort((a, b) =>
-    compareDesc(new Date(a.publishAt), new Date(b.publishAt)),
-  );
+export default function Note() {
+  const notes = allNotes.sort((a, b) => compareDesc(new Date(a.publishAt), new Date(b.publishAt)));
 
   return (
     <div>
       <div>
-        <h1 className='text-xl md:text-2xl font-semibold'>기록</h1>
+        <h1 className='text-xl md:text-2xl font-semibold'>
+          노트 <span className='text-base'>({notes.length})</span>
+        </h1>
         <p className='mt-2 text-sm md:text-base text-slate-500 dark:text-slate-300'>
-          일상 그리고 생각을 정리하기 위해서 기록합니다. 🌈✨
+          에러해결 그리고 학습했던 내용을 적는 노트입니다. 💻✨
         </p>
       </div>
       <ul className='mt-12'>
-        {records.map((record) => (
-          <RecordCard key={record._id} record={record} />
+        {notes.map((note) => (
+          <NoteCard key={note._id} note={note} />
         ))}
       </ul>
     </div>

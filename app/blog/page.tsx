@@ -5,12 +5,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: '블로그',
-  description:
-    '공부와 프로젝트를 진행하면서 겪었던 문제들, 그리고 다양한 지식을 공유하기 위해서 작성하는 블로그 입니다.',
+  description: '다양한 개발 지식을 공유하기 위해서 작성하는 블로그 입니다.',
   openGraph: {
     title: 'yeonbin 블로그',
-    description:
-      '공부와 프로젝트를 진행하면서 겪었던 문제들, 그리고 다양한 지식을 공유하기 위해서 작성하는 블로그 입니다.',
+    description: '다양한 개발 지식을 공유하기 위해서 작성하는 블로그 입니다.',
     url: 'blog',
     siteName: 'yeonbin blog',
     images: [
@@ -41,8 +39,7 @@ export default function Blog() {
           All Posts <span className='text-base'>({blogs.length})</span>
         </h1>
         <p className='mt-2 text-sm md:text-base text-slate-500 dark:text-slate-300'>
-          공부와 프로젝트를 진행하면서 겪었던 문제들, 그리고 다양한 지식을 공유하기 위해서 작성하는
-          블로그 입니다. 📖📚🔥
+          다양한 개발 지식을 공유하기 위해서 작성하는 블로그 입니다. 📖📚🔥
         </p>
       </div>
       <ul>
