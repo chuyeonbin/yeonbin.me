@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '블로그',
@@ -66,7 +65,7 @@ export default function About() {
                   Notion 포트폴리오 보기
                 </a>
                 <a
-                  href='#'
+                  href='/about'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='hover:text-indigo-700 underline underline-offset-4'
