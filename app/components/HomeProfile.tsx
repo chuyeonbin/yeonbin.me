@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function HomeProfile() {
@@ -9,6 +10,9 @@ export default function HomeProfile() {
         최신 기술을 배우는 것을 좋아하고, 배우고 성장하면서 얻는 성취감을 맛 봤을 때 가장 큰 보람을
         느낍니다. 커피☕️ 마시면서 코딩하는걸 좋아합니다. 독서📚 하는 걸 좋아해요.
       </p>
+      <Link className='self-baseline font-medium opaccity-80 text-sm md:text-base' href={'/about'}>
+        더보기
+      </Link>
     </div>
   );
 }
