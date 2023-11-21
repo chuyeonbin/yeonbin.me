@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | yeonbin.me',
     default: 'yeonbin 블로그 | Frontend Engineer',
   },
-  description: '개발 공부와 생각정리 그리고 일상을 공유하는 공간',
+  description: '개발 공부 그리고 배웠던 내용을 공유하는 블로그',
   verification: {
     google: 'DldXn_Qf3RofEbMeGh8ENxD-F00LzXgrNWXpVpkw3MQ',
   },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   robots: 'index, follow',
   openGraph: {
     title: 'yeonbin 블로그',
-    description: '개발 공부와 생각정리 그리고 일상을 공유하는 공간',
+    description: '개발 공부 그리고 배웠던 내용을 공유하는 블로그',
     url: 'https://yeonbin.me',
     siteName: 'yeonbin blog',
     images: [
