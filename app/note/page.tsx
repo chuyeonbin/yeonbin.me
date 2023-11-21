@@ -33,7 +33,7 @@ export default function Note() {
   const notes = allNotes.sort((a, b) => compareDesc(new Date(a.publishAt), new Date(b.publishAt)));
 
   return (
-    <div className='min-h-screen/2'>
+    <section className='min-h-screen/2'>
       <div>
         <h1 className='text-xl md:text-2xl font-semibold'>
           노트 <span className='text-base'>({notes.length})</span>
@@ -47,6 +47,6 @@ export default function Note() {
           <NoteCard key={note._id} note={note} />
         ))}
       </ul>
-    </div>
+    </section>
   );
 }

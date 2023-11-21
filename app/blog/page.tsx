@@ -33,7 +33,7 @@ export default function Blog() {
   const blogs = allBlogs.sort((a, b) => compareDesc(new Date(a.publishAt), new Date(b.publishAt)));
 
   return (
-    <div>
+    <section className='min-h-screen/2'>
       <div className='mb-16'>
         <h1 className='text-xl md:text-2xl font-semibold'>
           All Posts <span className='text-base'>({blogs.length})</span>
@@ -47,6 +47,6 @@ export default function Blog() {
           <BlogCard key={blog._id} blog={blog} />
         ))}
       </ul>
-    </div>
+    </section>
   );
 }

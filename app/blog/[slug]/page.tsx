@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const index = allBlogs.indexOf(blog);
 
   return (
-    <div>
+    <section>
       <div className='mb-12 md:mb-16'>
         <span className='text-slate-500 text-sm md:text-base'>{dateFormat(blog.publishAt)}</span>
         <h1 className='mt-2 text-2xl md:text-3xl font-semibold opacity-90'>{blog.title}</h1>
@@ -73,6 +73,6 @@ export default function Page({ params }: { params: { slug: string } }) {
       <PostFooter prevPost={allBlogs[index - 1] ?? null} nextPost={allBlogs[index + 1] ?? null} />
       <Toc headings={blog.headings} />
       <Giscus />
-    </div>
+    </section>
   );
 }
