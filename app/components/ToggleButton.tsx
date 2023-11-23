@@ -7,12 +7,13 @@ interface ToggleButtonProps {
 
 function ToggleButton({ onClick }: ToggleButtonProps) {
   return (
-    <span
+    <button
+      type='button'
       onClick={onClick}
       className='absolute right-4 top-5 inline-block md:hidden cursor-pointer'
     >
       <Bars3Icon className='h-6 w-6' />
-    </span>
+    </button>
   );
 }
 

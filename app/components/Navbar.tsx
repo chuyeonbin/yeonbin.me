@@ -1,9 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import navList from '@/data/navList';
 import Link from 'next/link';
 import ThemeSwitch from './ThemeSwitch';
-import { useState } from 'react';
 import ToggleButton from './ToggleButton';
 
 export default function Navbar() {
