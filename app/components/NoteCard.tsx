@@ -9,7 +9,7 @@ interface NoteCardProps {
 export default function NoteCard({ note }: NoteCardProps) {
   return (
     <li className='p-3 border-b dark:border-slate-300/20'>
-      <Link href={`Note/${note.slug}`} className='group'>
+      <Link href={`note/${note.slug}`} className='group'>
         <div>
           <div>
             <span className='text-slate-500 text-sm md:text-base'>
